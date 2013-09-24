@@ -65,6 +65,10 @@ class DistanceSensor(threading.Thread, Observable):
 	    # That was the distance there and back so halve the value
 	    val = distance / 2
 
+
+	if val < 0:
+	    val = 0
+
 	currtime = int(time.time() * 1000) # this is milliseconds so JavaScript doesn't have to do this
 	self.values.append([currtime, val])
 	self.values = self.values[-MAXVALUES:]
