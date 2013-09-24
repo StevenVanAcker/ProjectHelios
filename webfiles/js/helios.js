@@ -4,6 +4,10 @@ function renderGUI(data) {
     guiUpdateArrows("right", data.statRight);
     guiUpdateArrows("vert", data.statVert);
     updateDistanceHistory(data.altitudeHistory);
+
+    toggleSwitchTo("#setAuto", data.maintainAltitude);
+    toggleSwitchTo("#setSingleSteering", data.singleSteeringMode);
+
 }
 
 function guiUpdateArrows(name, state) {
@@ -44,6 +48,7 @@ function updateDistanceHistory(newdata) {
     }
 }
 
+
 function goLeft() { $.getJSON("/call/turnLeft", renderGUI); }
 function goRight() { $.getJSON("/call/turnRight", renderGUI); }
 function goForward() { $.getJSON("/call/forward", renderGUI); }
@@ -51,6 +56,8 @@ function goBackward() { $.getJSON("/call/backward", renderGUI); }
 function goUp() { $.getJSON("/call/up", renderGUI); }
 function goDown() { $.getJSON("/call/down", renderGUI); }
 function updateGUI() { $.getJSON("/call/status", renderGUI); }
+function setAuto(val) { $.getJSON("/call/setAuto/"+val, renderGUI); }
+function setSingleSteerMode(val) { $.getJSON("/call/setSingleSteerMode/"+val, renderGUI); }
 
 $(function() {
 	$( "#left-forward" ).click(goRight);
@@ -164,5 +171,33 @@ $(function () {
 });
 // }}}
 
-//setInterval(updateGUI, 200);
-$(function() { $("#on-off").toggleSwitch(); });
+
+var toggleFunctions = {};
+
+function initToggleSwitch(id, callback) {
+    $(function() { $(id).toggleSwitch({
+	exportGuts: function (e) {
+	    toggleFunctions[id] = e;
+	},
+    	change: function(e) {
+	    callback(id, e[1].value == 0);
+	} 
+    });});
+}
+
+function toggleSwitchTo(id, val) {
+    if(id in toggleFunctions) {
+	//console.log("Setting "+id+" to "+val);
+        toggleFunctions[id](val ? 0 : 1);
+    }
+}
+
+initToggleSwitch("#setAuto", function(i, v) {
+    setAuto(v);
+});
+
+initToggleSwitch("#setSingleSteering", function(i, v) {
+    setSingleSteerMode(v);
+});
+
+setInterval(updateGUI, 200);

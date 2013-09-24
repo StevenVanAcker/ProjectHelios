@@ -4,7 +4,8 @@ jQuery.fn.toggleSwitch = function (params) {
         highlight: true,
         width: 25,
         change: null,
-        stop: null
+        stop: null,
+	exportGuts: null //this function will be given a callback function that allows setting the value of the toggleswitch
     };
 
     var options = $.extend({}, defaults, params);
@@ -14,6 +15,8 @@ jQuery.fn.toggleSwitch = function (params) {
     });
 
     function generateToggle(selectObj) {
+
+        var silent = true;
 
         // create containing element
         var $contain = $("<div />").addClass("ui-toggle-switch");
@@ -28,7 +31,13 @@ jQuery.fn.toggleSwitch = function (params) {
             min: 0,
             max: 100,
             animate: "fast",
-            change: options.change,
+            change: function(e) { 
+		    if(!silent && options.change) {
+			options.change(arguments);
+		    //} else {
+			//e.preventDefault();
+		    }
+		},
             stop: function (e, ui) {
                 var roundedVal = Math.round(ui.value / 100);
                 var self = this;
@@ -71,5 +80,17 @@ jQuery.fn.toggleSwitch = function (params) {
         // add to DOM
         $(selectObj).parent().append($contain);
 
+	if(typeof options.exportGuts === 'function') {
+	    options.exportGuts.call(this, function() {
+	    	return function(x) {
+		    var oldsilent = silent;
+		    silent = true;
+		    toggleValue($contain, x);
+		    silent = oldsilent;
+		};
+	    }());
+	}
+
+	silent = false;
     }
 };
