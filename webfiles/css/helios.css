@@ -49,7 +49,7 @@ body{
 }
 
 .bigbutton-active {
-    color: blue;
+    color: #14a4ff;
 }
 
 .bigbutton-inactive {
@@ -112,6 +112,8 @@ body{
     position: absolute;
     top: 100px;
     left: 600px;
+    padding: 15px;
+    border: 1px solid #14a4ff;
 }
 
 #pwmValue-slider,#reqAltitude-slider {
