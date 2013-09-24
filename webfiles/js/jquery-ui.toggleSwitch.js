@@ -50,10 +50,10 @@ jQuery.fn.toggleSwitch = function (params) {
 
         // bind interaction
         $contain.on("click", "label", function () {
-            if ($(this).hasClass("ui-state-active")) {
-                return;
-            }
             var labelIndex = ($(this).is(":first-child")) ? 0 : 1;
+            if ($(this).hasClass("ui-state-active")) {
+                labelIndex = 1 - labelIndex;
+            }
             toggleValue(this.parentNode, labelIndex);
         });
 
