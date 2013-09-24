@@ -1,0 +1,9 @@
+        L                  R                                             
+       LLL                RRR                                               
+      L L L      UU      R R R                                                
+        L       U  U       R                                             
+               U    U
+        l      D    D      r
+      l l l     D  D     r r r                                             
+       lll       DD       rrr                                              
+        l                  r

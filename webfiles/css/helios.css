@@ -1,0 +1,109 @@
+body{
+	font: 62.5% "Trebuchet MS", sans-serif;
+	margin: 50px;
+}
+.demoHeaders {
+	margin-top: 2em;
+}
+#dialog-link {
+	padding: .4em 1em .4em 20px;
+	text-decoration: none;
+	position: relative;
+}
+#dialog-link span.ui-icon {
+	margin: 0 5px 0 0;
+	position: absolute;
+	left: .2em;
+	top: 50%;
+	margin-top: -8px;
+}
+#icons {
+	margin: 0;
+	padding: 0;
+}
+#icons li {
+	margin: 2px;
+	position: relative;
+	padding: 4px 0;
+	cursor: pointer;
+	float: left;
+	list-style: none;
+}
+#icons span.ui-icon {
+	float: left;
+	margin: 0 4px;
+}
+.fakewindowcontain .ui-widget-overlay {
+	position: absolute;
+}
+
+
+
+.bigbutton {
+    font-size: 100px;
+    height: 150px;
+    width: 150px;
+    text-align: center;
+    color: #ccc;
+    /* border: 1px solid red; */
+}
+
+.bigbutton-active {
+    color: blue;
+}
+
+.bigbutton-inactive {
+    color: #ccc;
+}
+
+#left-forward {
+    position: absolute;
+    top: 100px;
+    left: 100px;
+}
+#left-backward {
+    position: absolute;
+    top: 250px;
+    left: 100px;
+}
+
+#right-forward {
+    position: absolute;
+    top: 100px;
+    left: 400px;
+}
+#right-backward {
+    position: absolute;
+    top: 250px;
+    left: 400px;
+}
+
+#vert-forward {
+    position: absolute;
+    top: 100px;
+    left: 250px;
+    font-size: 50px;
+    vertical-align: bottom;
+}
+#vert-backward {
+    position: absolute;
+    top: 250px;
+    left: 250px;
+    font-size: 50px;
+}
+
+#vert-forward div {
+    position: absolute;
+    bottom: 0px;
+    text-align: center;
+    width: 100%;
+}
+
+#altitudeGraph {
+    position: absolute;
+    top: 400px;
+    left: 80px;
+    width: 450px; 
+    height: 200px; 
+    margin: 0 auto;
+}

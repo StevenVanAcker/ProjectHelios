@@ -1,0 +1,12 @@
+Keys
+----
+
+arrow keys: Steer left/right/forward/backward
+'s':        Toggle single/double motor steering
+' ', 'd':   Ascend & Descend
+'+', '-':   Decrease/Increase PWM value
+'m':        Maintain altitude (space to disable)
+'f':        Toggle Forced descent in "maintain altitude"
+'i':        Save camera image
+'q':        Quit
+
