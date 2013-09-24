@@ -9,6 +9,8 @@ function renderGUI(data) {
     toggleSwitchTo("#setSingleSteering", data.singleSteeringMode);
     toggleSwitchTo("#setForceDescent", data.forceDescent);
 
+    guiUpdateSlider("#pwmValue-slider", "#pwmValue-text", data.pwmValue);
+    guiUpdateSlider("#reqAltitude-slider", "#reqAltitude-text", data.requestedAltitude);
 }
 
 function guiUpdateArrows(name, state) {
@@ -49,6 +51,10 @@ function updateDistanceHistory(newdata) {
     }
 }
 
+function guiUpdateSlider(id, idtxt, val) {
+    $(id).slider("value", val);
+    $(idtxt).html(val);
+}
 
 function goLeft() { $.getJSON("/call/turnLeft", renderGUI); }
 function goRight() { $.getJSON("/call/turnRight", renderGUI); }
@@ -60,6 +66,8 @@ function updateGUI() { $.getJSON("/call/status", renderGUI); }
 function setAuto(val) { $.getJSON("/call/setAuto/"+val, renderGUI); }
 function setSingleSteerMode(val) { $.getJSON("/call/setSingleSteerMode/"+val, renderGUI); }
 function setForceDescent(val) { $.getJSON("/call/setForceDescent/"+val, renderGUI); }
+function setSpeed(val) { $.getJSON("/call/setSpeed/"+val, renderGUI); }
+function setHeight(val) { $.getJSON("/call/setHeight/"+val, renderGUI); }
 
 $(function() {
 	$( "#left-forward" ).click(goRight);
@@ -205,5 +213,16 @@ initToggleSwitch("#setSingleSteering", function(i, v) {
 initToggleSwitch("#setForceDescent", function(i, v) {
     setForceDescent(v);
 });
+
+// sliders {{{
+function initSlider(id, callback, maxV) {
+    $(function() {
+	$(id).slider({range: "min", min: 0, max: maxV, step: 1, value: 0, slide: callback,animate: true, orientation: "horizontal"});
+    });
+}
+// }}}
+
+initSlider("#pwmValue-slider", function(e, ui) { setSpeed(ui.value); }, 1023);
+initSlider("#reqAltitude-slider", function(e, ui) { setHeight(ui.value); }, 200);
 
 setInterval(updateGUI, 200);

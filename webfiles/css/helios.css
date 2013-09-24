@@ -113,3 +113,8 @@ body{
     top: 100px;
     left: 600px;
 }
+
+#pwmValue-slider,#reqAltitude-slider {
+    width: 300px;
+}
+
