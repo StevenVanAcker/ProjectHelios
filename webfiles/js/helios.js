@@ -7,6 +7,7 @@ function renderGUI(data) {
 
     toggleSwitchTo("#setAuto", data.maintainAltitude);
     toggleSwitchTo("#setSingleSteering", data.singleSteeringMode);
+    toggleSwitchTo("#setForceDescent", data.forceDescent);
 
 }
 
@@ -58,6 +59,7 @@ function goDown() { $.getJSON("/call/down", renderGUI); }
 function updateGUI() { $.getJSON("/call/status", renderGUI); }
 function setAuto(val) { $.getJSON("/call/setAuto/"+val, renderGUI); }
 function setSingleSteerMode(val) { $.getJSON("/call/setSingleSteerMode/"+val, renderGUI); }
+function setForceDescent(val) { $.getJSON("/call/setForceDescent/"+val, renderGUI); }
 
 $(function() {
 	$( "#left-forward" ).click(goRight);
@@ -170,8 +172,7 @@ $(function () {
     
 });
 // }}}
-
-
+// toggle switches {{{
 var toggleFunctions = {};
 
 function initToggleSwitch(id, callback) {
@@ -191,6 +192,7 @@ function toggleSwitchTo(id, val) {
         toggleFunctions[id](val ? 0 : 1);
     }
 }
+// }}}
 
 initToggleSwitch("#setAuto", function(i, v) {
     setAuto(v);
@@ -198,6 +200,10 @@ initToggleSwitch("#setAuto", function(i, v) {
 
 initToggleSwitch("#setSingleSteering", function(i, v) {
     setSingleSteerMode(v);
+});
+
+initToggleSwitch("#setForceDescent", function(i, v) {
+    setForceDescent(v);
 });
 
 setInterval(updateGUI, 200);
