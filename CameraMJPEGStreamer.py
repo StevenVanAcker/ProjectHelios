@@ -43,7 +43,7 @@ class CameraStore(object):
 	return imgCopy
 
 
-class CameraMJPEGStreamHandler(BaseHTTPRequestHandler):
+class CameraMJPEGStreamHandler(ThreadingMixIn, BaseHTTPRequestHandler):
     def do_GET(self):
         try:
 	    self.send_response(200)
@@ -65,13 +65,13 @@ class CameraMJPEGStreamer(HTTPServer):
     camera = None
     def __init__(self, *args, **kw):
             HTTPServer.__init__(self, *args, **kw)
-	    self.camera = Camera(["./fakecam.py", "out.mjpg"])
+	    self.camera = Camera()
 	    self.camera.start()
 	    self.cameraStore = CameraStore(self.camera)
 
 def main():
     try:
-        server = CameraMJPEGStreamer(('localhost', 8080), CameraMJPEGStreamHandler)
+        server = CameraMJPEGStreamer(('', 8080), CameraMJPEGStreamHandler)
         print 'started CameraMJPEGStreamer...'
         server.serve_forever()
     except KeyboardInterrupt:

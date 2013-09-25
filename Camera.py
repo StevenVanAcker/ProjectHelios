@@ -10,7 +10,7 @@ class Camera(Observable, Thread):
     lastImage = None
     imgLock = Lock()
 
-    def __init__(self, cmd = ["./fakecam.py", "nocam.jpg"]):
+    def __init__(self, cmd = ["raspistill","-o","-","-e","jpg","-t","999999999","-n","-tl","100","-w","400","-h","300","-q","80"]):
         Observable.__init__(self)
         Thread.__init__(self)
 	self.cmd = cmd
@@ -27,7 +27,7 @@ class Camera(Observable, Thread):
 	f = proc.stdout
 
         while self.keepRunning:
-	    data = f.read(1024000)
+	    data = f.read(1024)
 	    if len(data) <= 0:
 		self.keepRunning = False
 		break
