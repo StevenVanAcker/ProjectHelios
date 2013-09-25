@@ -48,6 +48,7 @@ class DistanceSensor(threading.Thread, Observable):
 	    time.sleep(0.00001)
 	    wiringpi.digitalWrite(self.pinTrigger, 0)
 	    start = time.time()
+	    stop = 0
 
 	    while wiringpi.digitalRead(self.pinEcho)==0:
 	      start = time.time()
