@@ -120,3 +120,19 @@ body{
     width: 300px;
 }
 
+#camera img {
+    width: 400px;
+    height: 300px;
+}
+
+#camera h1 {
+    font-size: 150%;
+}
+
+#camera {
+    position: absolute;
+    top: 250px;
+    left: 600px;
+    padding: 15px;
+    border: 1px solid #14a4ff;
+}
