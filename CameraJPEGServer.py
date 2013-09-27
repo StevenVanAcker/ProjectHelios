@@ -9,6 +9,7 @@ from SocketServer import ThreadingMixIn
 import re
 
 from Observable import Observable
+from Globals import Globals
 from Camera import Camera
 
 class CameraJPEGServerHandler(ThreadingMixIn, BaseHTTPRequestHandler):
@@ -27,13 +28,11 @@ class CameraJPEGServer(HTTPServer):
     camera = None
     def __init__(self, *args, **kw):
             HTTPServer.__init__(self, *args, **kw)
-	    #self.camera = Camera()
-    	    self.camera = Camera(["./fakecam.py", "nocam.jpg"])
+    	    self.camera = Camera()
 	    self.camera.start()
 
 def main():
     try:
-    	print "About to start CameraJPEGServer..."
         server = CameraJPEGServer(('', 8080), CameraJPEGServerHandler)
         print 'started CameraJPEGServer...'
         server.serve_forever()
@@ -42,7 +41,7 @@ def main():
         server.socket.close()
 
 def testmain():
-    xxx = Camera(["./fakecam.py", "nocam.jpg"])
+    xxx = Camera()
     xxx.start()
 
     while True:

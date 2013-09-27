@@ -40,6 +40,7 @@ class HeliosHTTP(BaseHTTPServer.BaseHTTPRequestHandler):
 		"setHeight": 		self.handler_setHeight,
 		"setForceDescent": 	self.handler_setForceDescent,
 		"setSingleSteerMode": 	self.handler_setSingleSteerMode,
+		"setCamera": 		self.handler_setCamera,
 	    }
 
 	#print "Get request for %s" % self.path
@@ -58,10 +59,17 @@ class HeliosHTTP(BaseHTTPServer.BaseHTTPRequestHandler):
 	    if request.startswith(FILEROOT):
 		# Maybe in webroot
 		if not os.path.exists(request):
-		    self.send_response(404)
-		    self.send_header("Content-type", "text/html")
-		    self.end_headers()
-		    self.wfile.write("<html><body>File not found</body></html>")
+		    if self.path == "/camera.jpg":
+			img = self.server.controller.getImage()
+			self.send_response(200)
+			self.send_header("Content-type", "image/jpeg")
+			self.end_headers()
+			self.wfile.write(img)
+		    else:
+			self.send_response(404)
+			self.send_header("Content-type", "text/html")
+			self.end_headers()
+			self.wfile.write("<html><body>File not found</body></html>")
 		else:
 		    f = open(request, 'rb')
 		    self.send_response(200)
@@ -160,6 +168,11 @@ class HeliosHTTP(BaseHTTPServer.BaseHTTPRequestHandler):
 	self.server.controller.setSingleSteerMode(parts[2].lower() == "true")
 	return self.server.controller.getStatus()
 
+    def handler_setCamera(self, parts):
+	if len(parts) < 3:
+	    raise "ERROR: need more data"
+	self.server.controller.setCamera(parts[2].lower() == "true")
+	return self.server.controller.getStatus()
 
 
 

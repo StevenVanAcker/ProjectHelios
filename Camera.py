@@ -3,17 +3,19 @@
 from threading import Thread, Lock
 from Observable import Observable
 from subprocess import Popen, PIPE
+from Globals import Globals
 
 class Camera(Observable, Thread):
     keepRunning = True
-    cmd = []
+    cmd = ["raspistill","-o","-","-e","jpg","-t","999999999","-n","-tl","100","-w","400","-h","300","-q","80"]
     lastImage = None
     imgLock = Lock()
 
-    def __init__(self, cmd = ["raspistill","-o","-","-e","jpg","-t","999999999","-n","-tl","100","-w","400","-h","300","-q","80"]):
+    def __init__(self):
         Observable.__init__(self)
         Thread.__init__(self)
-	self.cmd = cmd
+	if Globals.globFakeCamera:
+	    self.cmd = ["./fakecam.py", "nocam.jpg"]
 
     def getImage(self):
 	with self.imgLock:	
