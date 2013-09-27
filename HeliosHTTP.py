@@ -44,8 +44,11 @@ class HeliosHTTP(BaseHTTPServer.BaseHTTPRequestHandler):
 	    }
 
 	#print "Get request for %s" % self.path
+	# get rid of the query, if it exists:
+	self.path = self.path.split("?")[0]
 	if self.path == "" or self.path == "/":
 	    self.path = "/index.html"
+
 
 	x = self.dispatch(self.path)
 

@@ -59,7 +59,7 @@ class HeliosController(Observable):
 	self.ds.subscribe(self.update)
 	self.acl.subscribe(self.update)
 
-	#self.setCamera(True)
+	self.setCamera(False)
 	#self.acl.debug = True
 	#self.md.debug = True
 
@@ -111,6 +111,9 @@ class HeliosController(Observable):
 		self.cam.shutdown()
 		self.cam.join()
 		self.cam = None
+
+	self.status["cameraActive"] = True if self.cam != None else False
+	self.emit("HeliosController", self)
 
     def getImage(self):
 	if self.cam != None:

@@ -8,6 +8,9 @@ function renderGUI(data) {
     toggleSwitchTo("#setAuto", data.maintainAltitude);
     toggleSwitchTo("#setSingleSteering", data.singleSteeringMode);
     toggleSwitchTo("#setForceDescent", data.forceDescent);
+    toggleSwitchTo("#setCamera", data.cameraActive);
+    // if camera was (dis)actived from somewhere else, take action
+    cameraUpdate(data.cameraActive);
 
     guiUpdateSlider("#pwmValue-slider", "#pwmValue-text", data.pwmValue);
     guiUpdateSlider("#reqAltitude-slider", "#reqAltitude-text", data.requestedAltitude);
@@ -65,7 +68,7 @@ function goDown() { $.getJSON("/call/down", renderGUI); }
 function updateGUI() { $.getJSON("/call/status", renderGUI); }
 function setAuto(val) { $.getJSON("/call/setAuto/"+val, renderGUI); }
 function setSingleSteerMode(val) { $.getJSON("/call/setSingleSteerMode/"+val, renderGUI); }
-function setForceDescent(val) { $.getJSON("/call/setForceDescent/"+val, renderGUI); }
+function setCamera(val) { $.getJSON("/call/setCamera/"+val, renderGUI); }
 function setSpeed(val) { $.getJSON("/call/setSpeed/"+val, renderGUI); }
 function setHeight(val) { $.getJSON("/call/setHeight/"+val, renderGUI); }
 
@@ -181,7 +184,7 @@ $(function () {
 });
 // }}}
 // toggle switches {{{
-var toggleFunctions = {};
+var toggleFunctions = {}; // functions to alter the switch in the GUI
 
 function initToggleSwitch(id, callback) {
     $(function() { $(id).toggleSwitch({
@@ -214,6 +217,10 @@ initToggleSwitch("#setForceDescent", function(i, v) {
     setForceDescent(v);
 });
 
+initToggleSwitch("#setCamera", function(i, v) {
+    setCamera(v);
+});
+
 // sliders {{{
 function initSlider(id, callback, maxV) {
     $(function() {
@@ -226,3 +233,22 @@ initSlider("#pwmValue-slider", function(e, ui) { setSpeed(ui.value); }, 1023);
 initSlider("#reqAltitude-slider", function(e, ui) { setHeight(ui.value); }, 200);
 
 setInterval(updateGUI, 200);
+
+var cameraStatus = false;
+var cameraInterval = null;
+function cameraUpdate(val) {
+    if(val != cameraStatus) {
+	console.log("Camera switched "+val);
+	cameraStatus = val;
+
+	if(cameraStatus) {
+	    cameraInterval = setInterval(function(){
+		$("#cameraImage").attr("src", "/camera.jpg?"+new Date().getTime());
+	    },300);
+	} else {
+	    clearInterval(cameraInterval);
+	    cameraInterval = null;
+	}
+    }
+}
+
