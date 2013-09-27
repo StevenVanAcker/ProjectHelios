@@ -12,6 +12,8 @@ function renderGUI(data) {
     // if camera was (dis)actived from somewhere else, take action
     cameraUpdate(data.cameraActive);
 
+    if(data.cameraImage) cameraUpdateImage(data.cameraImage);
+
     guiUpdateSlider("#pwmValue-slider", "#pwmValue-text", data.pwmValue);
     guiUpdateSlider("#reqAltitude-slider", "#reqAltitude-text", data.requestedAltitude);
 }
@@ -241,6 +243,7 @@ function cameraUpdate(val) {
 	console.log("Camera switched "+val);
 	cameraStatus = val;
 
+	/*
 	if(cameraStatus) {
 	    cameraInterval = setInterval(function(){
 		$("#cameraImage").attr("src", "/camera.jpg?"+new Date().getTime());
@@ -249,6 +252,11 @@ function cameraUpdate(val) {
 	    clearInterval(cameraInterval);
 	    cameraInterval = null;
 	}
+	*/
     }
 }
 
+function cameraUpdateImage(d) {
+    console.log("new image");
+    $("#cameraImage").attr("src", d);
+}

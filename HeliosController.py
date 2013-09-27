@@ -16,6 +16,7 @@ from AltitudeControlLoop import AltitudeControlLoop
 from Camera import Camera
 from Observable import Observable
 from subprocess import call
+import base64
 
 
 class HeliosController(Observable):
@@ -100,6 +101,7 @@ class HeliosController(Observable):
 	    if val:
 		print "HeliosController enabling camera"
 		self.cam = Camera()
+		self.cam.subscribe(self.updateImage)
 		self.cam.start()
 	    else:
 		print "HeliosController tried to disable camera, but is not active"
@@ -111,15 +113,18 @@ class HeliosController(Observable):
 		self.cam.shutdown()
 		self.cam.join()
 		self.cam = None
+		self.status["cameraImage"] = "data:image/jpeg;base64," + base64.b64encode(open("nocam.jpg","rb").read())
 
 	self.status["cameraActive"] = True if self.cam != None else False
 	self.emit("HeliosController", self)
 
+    def updateImage(self, id, cam):
+	self.status["cameraImage"] = "data:image/jpeg;base64," + base64.b64encode(cam.getImage())
+
     def getImage(self):
 	if self.cam != None:
 	    return self.cam.getImage()
-	return None
-
+	return open("nocam.jpg","rb").read()
 
     def update(self, etype, src):
 	if etype == "MotorDriver":

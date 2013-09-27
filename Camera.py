@@ -15,7 +15,7 @@ class Camera(Observable, Thread):
         Observable.__init__(self)
         Thread.__init__(self)
 	if Globals.globFakeCamera:
-	    self.cmd = ["./fakecam.py", "nocam.jpg"]
+	    self.cmd = ["./fakecam.py", "fakecam.jpg"]
 
     def getImage(self):
 	with self.imgLock:	

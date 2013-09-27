@@ -136,3 +136,7 @@ body{
     padding: 15px;
     border: 1px solid #14a4ff;
 }
+
+#cameraTitle {
+    width: 100%;
+}
