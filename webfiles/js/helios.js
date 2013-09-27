@@ -70,6 +70,7 @@ function goDown() { $.getJSON("/call/down", renderGUI); }
 function updateGUI() { $.getJSON("/call/status", renderGUI); }
 function setAuto(val) { $.getJSON("/call/setAuto/"+val, renderGUI); }
 function setSingleSteerMode(val) { $.getJSON("/call/setSingleSteerMode/"+val, renderGUI); }
+function setForceDescent(val) { $.getJSON("/call/setForceDescent/"+val, renderGUI); }
 function setCamera(val) { $.getJSON("/call/setCamera/"+val, renderGUI); }
 function setSpeed(val) { $.getJSON("/call/setSpeed/"+val, renderGUI); }
 function setHeight(val) { $.getJSON("/call/setHeight/"+val, renderGUI); }

@@ -5,6 +5,8 @@ from Observable import Observable
 from subprocess import Popen, PIPE
 from Globals import Globals
 
+import time
+
 class Camera(Observable, Thread):
     keepRunning = True
     cmd = ["raspistill","-o","-","-e","jpg","-t","999999999","-n","-tl","100","-w","400","-h","300","-q","80"]
@@ -15,7 +17,7 @@ class Camera(Observable, Thread):
         Observable.__init__(self)
         Thread.__init__(self)
 	if Globals.globFakeCamera:
-	    self.cmd = ["./fakecam.py", "fakecam.jpg"]
+	    self.cmd = ["./fakecam.py", "fakecam.mjpg"]
 
     def getImage(self):
 	with self.imgLock:	
@@ -46,6 +48,8 @@ class Camera(Observable, Thread):
 		    with self.imgLock:
 			self.lastImage = buffer[:i]
 		    buffer = buffer[i:]
+		    if Globals.globFakeCamera:
+			time.sleep(0.1)
 		    self.emit("Camera", self)
 
     def shutdown(self):
