@@ -178,7 +178,7 @@ class MotorDriver(threading.Thread, Observable):
 if __name__ == '__main__':
     Globals.globSimulate = True
     delay = 0.1
-    md = MotorDriver([22,9,10,11,17,3])
+    md = MotorDriver([1,2,3,4,5,6]) #Fake values
     md.debug = True
     md.start()
     md.turnLeft() ; time.sleep(delay)
