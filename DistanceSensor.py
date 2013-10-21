@@ -113,7 +113,7 @@ if __name__ == '__main__':
 	wiringpi.wiringPiSetupGpio()
 
     delay = 0.1
-    ds = DistanceSensor(1, 2)
+    ds = DistanceSensor(1, 2) # Fake values
     ds.start()
 
     for i in range(0, 10):
